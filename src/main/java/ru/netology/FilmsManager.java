@@ -18,15 +18,22 @@ public class FilmsManager {
     }
 
     public void add(FilmsItem item) {
+        if (item == null) {
+            return;
+        }
         if (this.repo != null) {
             FilmsItem[] tmp = Arrays.copyOf(this.repo, this.repo.length + 1);
             tmp[this.repo.length] = item;
             this.repo = tmp;
+        } else {
+            this.repo = new FilmsItem[]{item};
         }
-        this.repo = new FilmsItem[]{item};
     }
 
     public FilmsItem[] findAll() {
+        if (this.repo == null) {
+            this.repo = new FilmsItem[0];
+        }
         return this.repo.clone();
     }
 
