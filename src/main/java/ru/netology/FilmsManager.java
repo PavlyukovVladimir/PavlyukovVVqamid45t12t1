@@ -4,9 +4,10 @@ import java.util.Arrays;
 
 public class FilmsManager {
     private FilmsItem[] repo;
-    private int lastFilmsCount = 10;
+    private final int lastFilmsCount;
 
     public FilmsManager() {
+        this.lastFilmsCount = 10;
     }
 
     public FilmsManager(int lastFilmsCount) throws IllegalArgumentException {
