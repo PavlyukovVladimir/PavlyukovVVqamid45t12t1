@@ -12,13 +12,13 @@ class FilmsManagerTest {
 
     @BeforeEach
     void setUp() {
-        filmsManager = new FilmsManager();
+        filmsManager = new FilmsManager(new Repo());
     }
 
     @Test
     void exceptionNegativeSizeLast() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new FilmsManager(-1);
+            new FilmsManager(new Repo(), -1);
         });
         assertEquals("Нельзя присвоить отрицательное количество выводимых фильмов", exception.getMessage());
     }
@@ -87,7 +87,7 @@ class FilmsManagerTest {
     void addOneFilmSetZeroLastFindAll() {
         FilmsItem filmsItem = new FilmsItem("title", 1981, "imageUrl");
 
-        filmsManager = new FilmsManager(0);
+        filmsManager = new FilmsManager(new Repo(), 0);
         filmsManager.add(filmsItem);
 
         FilmsItem[] expected = new FilmsItem[]{filmsItem};
@@ -100,7 +100,7 @@ class FilmsManagerTest {
     void addOneFilmSetZeroLastFindLast() {
         FilmsItem filmsItem = new FilmsItem("title", 1981, "imageUrl");
 
-        filmsManager = new FilmsManager(0);
+        filmsManager = new FilmsManager(new Repo(), 0);
         filmsManager.add(filmsItem);
 
         FilmsItem[] expected = new FilmsItem[0];
@@ -147,7 +147,7 @@ class FilmsManagerTest {
         FilmsItem filmsItem2 = new FilmsItem("title2", 1970, "imageUrl2");
         FilmsItem filmsItem3 = new FilmsItem("title3", 1990, "imageUrl3");
 
-        filmsManager = new FilmsManager(2);
+        filmsManager = new FilmsManager(new Repo(), 2);
         filmsManager.add(filmsItem1);
         filmsManager.add(filmsItem2);
         filmsManager.add(filmsItem3);
@@ -164,7 +164,7 @@ class FilmsManagerTest {
         FilmsItem filmsItem2 = new FilmsItem("title2", 1970, "imageUrl2");
         FilmsItem filmsItem3 = new FilmsItem("title3", 1990, "imageUrl3");
 
-        filmsManager = new FilmsManager(2);
+        filmsManager = new FilmsManager(new Repo(), 2);
         filmsManager.add(filmsItem1);
         filmsManager.add(filmsItem2);
         filmsManager.add(filmsItem3);

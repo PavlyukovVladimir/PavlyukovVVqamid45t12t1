@@ -17,4 +17,7 @@ public class FilmsItem implements Cloneable {
         this.imageUrl = imageUrl;
     }
 
+    public long getId() {
+        return id;
+    }
 }

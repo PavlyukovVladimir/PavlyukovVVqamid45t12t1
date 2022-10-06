@@ -3,14 +3,22 @@ package ru.netology;
 import java.util.Arrays;
 
 public class FilmsManager {
-    private FilmsItem[] repo;
+    private Repo repo;
     private final int lastFilmsCount;
 
-    public FilmsManager() {
+    public FilmsManager(Repo repo) {
+        if(repo == null){
+            throw new IllegalArgumentException("Нельзя присвоить null вместо репозитория");
+        }
+        this.repo = repo;
         this.lastFilmsCount = 10;
     }
 
-    public FilmsManager(int lastFilmsCount) throws IllegalArgumentException {
+    public FilmsManager(Repo repo, int lastFilmsCount) throws IllegalArgumentException {
+        if(repo == null){
+            throw new IllegalArgumentException("Нельзя присвоить null вместо репозитория");
+        }
+        this.repo = repo;
         if (lastFilmsCount < 0) {
             throw new IllegalArgumentException("Нельзя присвоить отрицательное количество выводимых фильмов");
         }
@@ -18,33 +26,19 @@ public class FilmsManager {
     }
 
     public void add(FilmsItem item) {
-        if (item == null) {
-            return;
-        }
-        if (this.repo != null) {
-            FilmsItem[] tmp = Arrays.copyOf(this.repo, this.repo.length + 1);
-            tmp[this.repo.length] = item;
-            this.repo = tmp;
-        } else {
-            this.repo = new FilmsItem[]{item};
-        }
+        repo.save(item);
     }
 
     public FilmsItem[] findAll() {
-        if (this.repo == null) {
-            this.repo = new FilmsItem[0];
-        }
-        return this.repo.clone();
+        return this.repo.findAll();
     }
 
     public FilmsItem[] findLast() {
-        if (this.repo == null) {
-            return new FilmsItem[0];
-        }
-        int count = Math.min(this.lastFilmsCount, this.repo.length);
+        FilmsItem[] ascRepo = repo.findAll();
+        int count = Math.min(this.lastFilmsCount, ascRepo.length);
         FilmsItem[] tmp = new FilmsItem[count];
         for (int i = 0; i < count; i++) {
-            tmp[i] = this.repo[this.repo.length - 1 - i];
+            tmp[i] = ascRepo[ascRepo.length - 1 - i];
         }
         return tmp;
     }
