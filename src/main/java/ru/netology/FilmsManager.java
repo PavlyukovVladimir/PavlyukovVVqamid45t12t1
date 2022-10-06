@@ -1,12 +1,10 @@
 package ru.netology;
 
-import java.util.Arrays;
-
 public class FilmsManager {
-    private Repo repo;
+    private FilmsRepo repo;
     private final int lastFilmsCount;
 
-    public FilmsManager(Repo repo) {
+    public FilmsManager(FilmsRepo repo) {
         if(repo == null){
             throw new IllegalArgumentException("Нельзя присвоить null вместо репозитория");
         }
@@ -14,7 +12,7 @@ public class FilmsManager {
         this.lastFilmsCount = 10;
     }
 
-    public FilmsManager(Repo repo, int lastFilmsCount) throws IllegalArgumentException {
+    public FilmsManager(FilmsRepo repo, int lastFilmsCount) throws IllegalArgumentException {
         if(repo == null){
             throw new IllegalArgumentException("Нельзя присвоить null вместо репозитория");
         }

@@ -1,9 +1,15 @@
 package ru.netology;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doReturn;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 
 class FilmsManagerTest {
@@ -12,15 +18,77 @@ class FilmsManagerTest {
 
     @BeforeEach
     void setUp() {
-        filmsManager = new FilmsManager(new Repo());
+        filmsManager = new FilmsManager(new FilmsRepo());
+    }
+
+    @Test
+    void findLast() {
+        FilmsItem[] films = new FilmsItem[]{
+                new FilmsItem("title1", 1981, "imageUrl1"),
+                new FilmsItem("title2", 1970, "imageUrl2"),
+                new FilmsItem("title3", 1990, "imageUrl3"),
+                new FilmsItem("title4", 1991, "imageUrl4"),
+                new FilmsItem("title5", 1992, "imageUrl5"),
+                new FilmsItem("title6", 1993, "imageUrl6"),
+                new FilmsItem("title7", 1994, "imageUrl7")
+        };
+        FilmsRepo repo = Mockito.mock(FilmsRepo.class);
+        filmsManager = new FilmsManager(repo);
+
+        doReturn(films).when(repo).findAll();
+
+        List<FilmsItem> lst = Arrays.asList(films.clone());
+        Collections.reverse(lst);
+        FilmsItem[] expected = lst.toArray(new FilmsItem[0]);
+        FilmsItem[] actual = filmsManager.findLast();
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    void findAll() {
+        FilmsItem[] films = new FilmsItem[]{
+                new FilmsItem("title1", 1981, "imageUrl1"),
+                new FilmsItem("title2", 1970, "imageUrl2"),
+                new FilmsItem("title3", 1990, "imageUrl3"),
+                new FilmsItem("title4", 1991, "imageUrl4"),
+                new FilmsItem("title5", 1992, "imageUrl5"),
+                new FilmsItem("title6", 1993, "imageUrl6"),
+                new FilmsItem("title7", 1994, "imageUrl7")
+        };
+        FilmsRepo repo = Mockito.mock(FilmsRepo.class);
+        filmsManager = new FilmsManager(repo);
+
+        doReturn(films).when(repo).findAll();
+
+        FilmsItem[] expected = films;
+        FilmsItem[] actual = filmsManager.findAll();
+
+        assertArrayEquals(expected, actual);
     }
 
     @Test
     void exceptionNegativeSizeLast() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new FilmsManager(new Repo(), -1);
+            new FilmsManager(new FilmsRepo(), -1);
         });
         assertEquals("Нельзя присвоить отрицательное количество выводимых фильмов", exception.getMessage());
+    }
+
+    @Test
+    void exceptionNullRepo() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new FilmsManager(null);
+        });
+        assertEquals("Нельзя присвоить null вместо репозитория", exception.getMessage());
+    }
+
+    @Test
+    void exceptionNullRepoSizeLast() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            new FilmsManager(null, 5);
+        });
+        assertEquals("Нельзя присвоить null вместо репозитория", exception.getMessage());
     }
 
     @Test
@@ -87,7 +155,7 @@ class FilmsManagerTest {
     void addOneFilmSetZeroLastFindAll() {
         FilmsItem filmsItem = new FilmsItem("title", 1981, "imageUrl");
 
-        filmsManager = new FilmsManager(new Repo(), 0);
+        filmsManager = new FilmsManager(new FilmsRepo(), 0);
         filmsManager.add(filmsItem);
 
         FilmsItem[] expected = new FilmsItem[]{filmsItem};
@@ -100,7 +168,7 @@ class FilmsManagerTest {
     void addOneFilmSetZeroLastFindLast() {
         FilmsItem filmsItem = new FilmsItem("title", 1981, "imageUrl");
 
-        filmsManager = new FilmsManager(new Repo(), 0);
+        filmsManager = new FilmsManager(new FilmsRepo(), 0);
         filmsManager.add(filmsItem);
 
         FilmsItem[] expected = new FilmsItem[0];
@@ -147,7 +215,7 @@ class FilmsManagerTest {
         FilmsItem filmsItem2 = new FilmsItem("title2", 1970, "imageUrl2");
         FilmsItem filmsItem3 = new FilmsItem("title3", 1990, "imageUrl3");
 
-        filmsManager = new FilmsManager(new Repo(), 2);
+        filmsManager = new FilmsManager(new FilmsRepo(), 2);
         filmsManager.add(filmsItem1);
         filmsManager.add(filmsItem2);
         filmsManager.add(filmsItem3);
@@ -164,7 +232,7 @@ class FilmsManagerTest {
         FilmsItem filmsItem2 = new FilmsItem("title2", 1970, "imageUrl2");
         FilmsItem filmsItem3 = new FilmsItem("title3", 1990, "imageUrl3");
 
-        filmsManager = new FilmsManager(new Repo(), 2);
+        filmsManager = new FilmsManager(new FilmsRepo(), 2);
         filmsManager.add(filmsItem1);
         filmsManager.add(filmsItem2);
         filmsManager.add(filmsItem3);

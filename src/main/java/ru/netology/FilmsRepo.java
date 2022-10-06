@@ -2,7 +2,7 @@ package ru.netology;
 
 import java.util.Arrays;
 
-public class Repo {
+public class FilmsRepo {
     private FilmsItem[] repo = new FilmsItem[0];
 
     public FilmsItem[] findAll() {
@@ -38,23 +38,19 @@ public class Repo {
     }
 
     private void remove(int index) throws NullPointerException {
-        if (index >= 0 && repo.length > index) {
-            FilmsItem[] tmp = new FilmsItem[repo.length - 1];
-            int i = 0;
-            for (; i < index; i++) {
-                tmp[i] = repo[i];
-            }
-            i++;
-            for (; i < repo.length; i++) {
-                tmp[i - 1] = repo[i];
-            }
-            repo = tmp;
-        } else {
-            throw new NullPointerException("Объекта с index: " + index + " нет");
+        FilmsItem[] tmp = new FilmsItem[repo.length - 1];
+        int i = 0;
+        for (; i < index; i++) {
+            tmp[i] = repo[i];
         }
+        i++;
+        for (; i < repo.length; i++) {
+            tmp[i - 1] = repo[i];
+        }
+        repo = tmp;
     }
 
-    private void removeAll() {
+    public void removeAll() {
         repo = new FilmsItem[0];
     }
 }

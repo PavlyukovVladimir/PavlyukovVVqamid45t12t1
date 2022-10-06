@@ -1,7 +1,5 @@
 package ru.netology;
 
-import java.util.Objects;
-
 public class FilmsItem implements Cloneable {
     private static long indexCount = 0;
 
@@ -11,7 +9,7 @@ public class FilmsItem implements Cloneable {
     private String imageUrl;
 
     public FilmsItem(String title, int releaseYear, String imageUrl) {
-        this.id = indexCount + 1L;
+        this.id = ++indexCount;
         this.title = title;
         this.releaseYear = releaseYear;
         this.imageUrl = imageUrl;
